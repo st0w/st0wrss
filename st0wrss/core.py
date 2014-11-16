@@ -258,6 +258,14 @@ class st0wRSS:
                 if os.path.exists('%s%s%s' % (d, os.sep, torrent_path)):
                     found = True
 
+        # Now check the DB for this path.... This can happen if two
+        # torrents exist on the same server with the same path...
+        cursor = self.db.cursor()
+        cursor.execute("SELECT path FROM dls WHERE path=?", (torrent_path,))
+        res = cursor.fetchone()
+        if res:
+            found = True
+
         if not found:
             # Drop the torrent file into the torrent_dir
             fn = '%s%s%s.torrent' % (os.path.abspath(self.torrent_dir),
