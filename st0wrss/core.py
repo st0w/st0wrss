@@ -236,7 +236,10 @@ class st0wRSS:
         Returns `bool` indicating whether torrent was downloaded (true)
         or skipped due to pre-existence (false)
         """
-        resp = urllib.request.urlopen(url)
+        headers = {'User-Agent':'Mozilla/4.0 (compatible;MSIE 5.5;Windows NT)'}
+
+        req = urllib.request.Request(url, headers=headers)
+        resp = urllib.request.urlopen(req)
         torrent = resp.read()
         torrent_data = decode(torrent)
 
